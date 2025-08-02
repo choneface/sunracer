@@ -5,6 +5,7 @@ import MinigamesMenu from "./components/MinigamesMenu";
 import { GuessNumber } from "./components/minigames/GuessNumber";
 import type { MinigameSpec } from "./components/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
+import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame";
 
 const minigames: MinigameSpec[] = [
   {
@@ -18,6 +19,12 @@ const minigames: MinigameSpec[] = [
     title: "Dice Game",
     description: "Race to 100 points in 60s",
     Component: DiceGame,
+  },
+  {
+    id: "minesweeper",
+    title: "Minesweeper",
+    description: "Find all the mines in 60s",
+    Component: MinesweeperGame,
   },
 ];
 
