@@ -4,6 +4,7 @@ import PlaceholderScene from "./scenes/PlaceHolderScene";
 import MinigamesMenu from "./components/MinigamesMenu";
 import { GuessNumber } from "./components/minigames/GuessNumber";
 import type { MinigameSpec } from "./components/MinigamesMenu";
+import DiceGame from "./components/minigames/dice-game/DiceGame";
 
 const minigames: MinigameSpec[] = [
   {
@@ -11,6 +12,12 @@ const minigames: MinigameSpec[] = [
     title: "Guess Number",
     description: "Guess a number between 1 and 10",
     Component: GuessNumber,
+  },
+  {
+    id: "dice-game",
+    title: "Dice Game",
+    description: "Race to 100 points in 60s",
+    Component: DiceGame,
   },
 ];
 
