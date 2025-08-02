@@ -1,0 +1,122 @@
+/* ─────────────────────────────────────────────────────────────
+   Layout (two columns) — mirrors Scene.css look
+───────────────────────────────────────────────────────────── */
+.minigames-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* list | play area */
+  height: 100vh;
+  color: #ffffff;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+  border: 1px solid #ffffff; /* frame like Scene.css */
+}
+
+.minigames-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: 1px solid #ffffff; /* separators like .scene-column */
+  overflow: hidden; /* contain panels; inner panels scroll */
+}
+
+.minigames-col:last-child {
+  border-right: none;
+}
+
+/* Panels reuse the Scene.css dark box vibe */
+.panel {
+  border: 1px solid #ffffff;
+  background: #15191e;
+  padding: 1rem 1.5rem;
+  margin: 1rem;
+}
+
+.header-panel {
+  margin-bottom: 0.5rem;
+}
+
+.panel-title {
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.panel-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* List column */
+.list-col {
+  overflow: auto;
+}
+
+.games-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.game-item {
+  margin: 0;
+}
+
+.game-button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  background: none;
+  border: 1px solid #ffffff;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    font-weight 120ms ease-in,
+    background 120ms ease-in;
+}
+
+.game-item.active .game-button,
+.game-button:hover,
+.game-button:focus {
+  font-weight: 700;
+  outline: none;
+  background: #0f1317;
+}
+
+.game-title {
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.game-desc {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+/* Play column */
+.play-col {
+  overflow: hidden;
+}
+
+.play-header {
+  margin: 1rem 1rem 0.5rem 1rem;
+}
+
+.play-surface {
+  margin: 0.5rem 1rem 1rem 1rem;
+  border: 1px solid #ffffff;
+  background: #15191e;
+  height: 100%;
+  overflow: auto; /* minigame content can scroll if needed */
+  padding: 1rem 1.5rem;
+}
+
+.empty-state {
+  opacity: 0.9;
+  font-style: italic;
+}

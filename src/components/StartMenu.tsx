@@ -3,11 +3,11 @@ import "./StartMenu.css";
 export interface StartMenuProps {
   onNewGame: () => void;
   onContinue: () => void;
+  onMinigames: () => void;
   onSettings: () => void;
 }
 
 /* ASCII “block” title generated with cfonts (font: block) */
-/* eslint-disable no-irregular-whitespace */
 const TITLE = String.raw`
 ███████╗██╗   ██╗███╗   ██╗██████╗  █████╗  ██████╗███████╗██████╗ 
 ██╔════╝██║   ██║████╗  ██║██╔══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗
@@ -20,6 +20,7 @@ const TITLE = String.raw`
 export default function StartMenu({
   onNewGame,
   onContinue,
+  onMinigames,
   onSettings,
 }: StartMenuProps) {
   return (
@@ -28,13 +29,16 @@ export default function StartMenu({
 
       <nav className="menu">
         <button className="menu-item" onClick={onNewGame}>
-          New Game
+          New Game
         </button>
         <button className="menu-item" onClick={onContinue}>
-          Continue Game
+          Continue Game
+        </button>
+        <button className="menu-item" onClick={onMinigames}>
+          Minigames
         </button>
         <button className="menu-item" onClick={onSettings}>
-          Settings & Credits
+          Settings & Credits
         </button>
       </nav>
     </div>
