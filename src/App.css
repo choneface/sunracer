@@ -1,0 +1,18 @@
+/* global stylesheet – index.css or App.css */
+
+/* fill the viewport with the terminal color */
+html,
+body {
+  height: 100%;
+  margin: 0; /* wipe browser default margin */
+  background: #15191e;
+}
+
+/* center the actual app again */
+#root {
+  height: 100%;
+  max-width: 1280px; /* optional – keep / tweak as you like */
+  margin: 0 auto; /* <‑‑ horizontally centers #root */
+  padding: 2rem;
+  text-align: center;
+}

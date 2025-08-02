@@ -1,0 +1,30 @@
+.state-box {
+  width: 90%;
+  border: 1px solid #ffffff;
+  padding: 1rem 1.5rem;
+  background: #15191e;
+  color: #ffffff;
+  font-family: inherit;
+}
+
+.state-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.state-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+}
+
+.state-list dt {
+  font-weight: 400;
+}
+
+.state-list dd {
+  margin: 0;
+  text-align: right;
+}

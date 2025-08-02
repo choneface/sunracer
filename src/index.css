@@ -1,0 +1,12 @@
+/* --- GLOBAL “terminal” BACKDROP --- */
+html,
+body {
+  height: 100%;
+  margin: 0; /* wipe default 8 px body margin */
+  background: #15191e; /* fills entire viewport, always */
+}
+
+/* keep the React root full height so flex layouts can stretch */
+#root {
+  height: 100%;
+}

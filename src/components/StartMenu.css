@@ -1,0 +1,48 @@
+.start-menu {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #15191e;
+  color: #ffffff;
+  font-family:
+    "Lucida Console", "Lucida Sans Typewriter", Monaco, Menlo, Consolas,
+    "Courier New", monospace;
+}
+
+.title {
+  margin-top: 2rem;
+  white-space: pre;
+  user-select: none;
+  font-size: larger;
+  line-height: 1.25;
+}
+
+.menu {
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  align-items: center;
+  line-height: 1;
+}
+
+.menu-item {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: color 120ms ease-in;
+}
+
+.menu-item:hover {
+  font-weight: 700;
+}
+
+.menu-item:focus {
+  color: #fff; /* bright highlight */
+  outline: none;
+}

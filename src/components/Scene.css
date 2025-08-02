@@ -1,0 +1,132 @@
+/* ─────────────────────────────────────────────────────────────
+   GLOBAL FONT / COLOR (unchanged)
+───────────────────────────────────────────────────────────── */
+.scene-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* thirds */
+  height: 100vh; /* full viewport */
+  color: #ffffff;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+
+  /* 1‑px frame around the whole scene */
+  border: 1px solid #ffffff;
+}
+
+/* draw the vertical separators so empty columns are visible */
+.scene-column {
+  border-right: 1px solid #ffffff;
+}
+
+/* ───────────  Column containers  ─────────── */
+.scene-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* stretch top–bottom */
+}
+
+.art-col,
+.state-col {
+  justify-content: flex-start; /* top‑aligned */
+  align-items: center; /* horizontal center */
+  overflow: auto;
+}
+
+.main-col {
+  justify-content: space-between; /* prompt at top, choices at bottom */
+  align-items: center;
+  overflow: auto;
+}
+
+/* ───────────  Prompt box  ─────────── */
+.prompt-box {
+  width: 90%; /* full column width */
+  border: 1px solid #ffffff;
+  padding: 1rem 1.5rem;
+  background: #15191e;
+}
+
+.prompt-text {
+  margin: 0;
+  white-space: pre-wrap;
+  text-align: left;
+  line-height: 1.25;
+  font-size: large;
+}
+
+/* ───────────  Choices box  ─────────── */
+.choices-box {
+  width: 90%; /* full column width */
+  border: 1px solid #ffffff;
+  padding: 1rem 1.5rem;
+  background: #15191e;
+  margin-top: auto; /* stick to bottom even before it appears */
+}
+
+.choices {
+  margin: 0;
+  padding-left: 0rem;
+  list-style: none;
+  line-height: 1;
+}
+
+.choices li {
+  margin: 1.5rem 0;
+}
+
+.choice {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: medium;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  transition: font-weight 120ms ease-in;
+  text-align: left;
+}
+
+.choice:hover,
+.choice:focus {
+  font-weight: 700;
+  outline: none;
+}
+
+/* ───────────  ASCII‑art placeholder  ─────────── */
+.ascii-art {
+  white-space: pre;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* ───────────  Journal / State box  ─────────── */
+.state-box {
+  width: 90%; /* fill the column horizontally */
+  height: 100%; /* and vertically */
+  /* border: 1px solid #ffffff; */
+  /* padding: 1rem 1.5rem; */
+  /* background: #15191e; */
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.state-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.state-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+}
+
+.state-list dt {
+  font-weight: 400;
+}
+.state-list dd {
+  margin: 0;
+  text-align: right;
+}
