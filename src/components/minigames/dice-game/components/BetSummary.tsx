@@ -1,5 +1,3 @@
-import React from "react";
-
 type BetDir = "OVER" | "UNDER";
 
 export default function BetSummary({
