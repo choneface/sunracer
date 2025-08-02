@@ -6,6 +6,7 @@ import { GuessNumber } from "./components/minigames/GuessNumber";
 import type { MinigameSpec } from "./components/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
 import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame";
+import KeypadGame from "./components/minigames/keypad/KeypadGame";
 
 const minigames: MinigameSpec[] = [
   {
@@ -25,6 +26,12 @@ const minigames: MinigameSpec[] = [
     title: "Minesweeper",
     description: "Find all the mines in 60s",
     Component: MinesweeperGame,
+  },
+  {
+    id: "keypad",
+    title: "Keypad",
+    description: "Guess the number in 3 rounds",
+    Component: KeypadGame,
   },
 ];
 
