@@ -8,6 +8,7 @@ import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame"
 import KeypadGame from "./components/minigames/keypad/KeypadGame";
 import SnakeGame from "./components/minigames/snake/SnakeGame";
 import BlackjackLiteGame from "./components/minigames/blackjack/BlackjackLiteGame";
+import CodeCrackerGame from "./components/minigames/codecracker/CodeCrackerGame.tsx";
 
 const minigames: MinigameSpec[] = [
   {
@@ -39,6 +40,12 @@ const minigames: MinigameSpec[] = [
     title: "Blackjack Lite",
     description: "Three card black jack with simplified rules",
     Component: BlackjackLiteGame,
+  },
+  {
+    id: "codecracker",
+    title: "Code Cracker",
+    description: "Guess the 4-digit code",
+    Component: CodeCrackerGame,
   },
 ];
 
