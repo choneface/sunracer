@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import RoundCircles from "./components/RoundedCircles";
 import DigitBoxes from "./components/DigitBoxes";
 import Numpad from "./components/Numpad";
@@ -14,6 +15,7 @@ const SPIN_MS = 2000;
 const SHOW_MS = 750;
 
 export default function KeypadGame() {
+  const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>("READY");
   const [round, setRound] = useState(0); // 0..3 filled
   const [target, setTarget] = useState<number[]>([]);
@@ -26,7 +28,7 @@ export default function KeypadGame() {
   const spinTickRef = useRef<number | null>(null);
   const showTimerRef = useRef<number | null>(null);
 
-  const canStart = phase === "READY";
+  const canStart = phase === "READY" && started;
 
   const startRound = useCallback(() => {
     if (!canStart) return;
@@ -138,13 +140,14 @@ export default function KeypadGame() {
     });
   }, [inputDigits, phase, target]);
 
-  // R to reset after win/lose
+  // Reset with R (on overlays)
   const resetGame = useCallback(() => {
     setPhase("READY");
     setRound(0);
     setTarget([]);
     setInputDigits([]);
     setDisplayDigits(Array(DIGITS).fill(null));
+    setStarted(false);
   }, []);
 
   useEffect(() => {
@@ -160,11 +163,42 @@ export default function KeypadGame() {
     return () => window.removeEventListener("keydown", onKey);
   }, [phase, resetGame]);
 
+  const instructions = (
+    <>
+      <p>Memorize and repeat 5-digit codes consecutively.</p>
+      <ul>
+        <li>
+          There are {ROUNDS_TO_WIN} rounds; winning all in a row wins the game.
+        </li>
+        <li>
+          Press Start to show a spinning code, then memorize the 5 digits.
+        </li>
+        <li>
+          After it clears, enter the code via keypad. Correct advances a round.
+        </li>
+        <li>Any mistake ends the game. Press R after win/lose to retry.</li>
+      </ul>
+    </>
+  );
+
   return (
     <div
       className="panel"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
     >
+      {!started && (
+        <StartButtonInfoModal
+          title="Keypad"
+          instructions={instructions}
+          onStart={() => setStarted(true)}
+        />
+      )}
+
       {/* Top status: rounds */}
       <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
         <div
@@ -208,6 +242,7 @@ export default function KeypadGame() {
                 type="button"
                 className="choice kp-start-btn"
                 onClick={startRound}
+                disabled={!started}
               >
                 Start
               </button>

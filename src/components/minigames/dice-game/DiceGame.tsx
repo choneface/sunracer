@@ -3,6 +3,7 @@ import "./DiceGame.css";
 import DiceBox from "./components/DiceBox";
 import CenteredOverlay from "./components/CenteredOverlay";
 import BetSummary from "./components/BetSummary";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 
 /** Game constants */
 const ROUND_ROLL_DURATION_MS = 1500;
@@ -14,6 +15,7 @@ type BetDir = "OVER" | "UNDER";
 type Phase = "READY" | "ROLLING" | "RESULT" | "WIN" | "LOSE";
 
 export default function DiceGame() {
+  const [started, setStarted] = useState(false);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(START_TIME_SEC);
   const [phase, setPhase] = useState<Phase>("READY");
@@ -27,16 +29,16 @@ export default function DiceGame() {
 
   const [feedback, setFeedback] = useState<"Correct!" | "Wrong!" | "">("");
 
-  // Timer
+  // Timer (paused until start)
   useEffect(() => {
-    if (phase === "WIN" || phase === "LOSE") return;
+    if (!started || phase === "WIN" || phase === "LOSE") return;
     if (timeLeft <= 0) {
       setPhase("LOSE");
       return;
     }
     const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearInterval(id);
-  }, [timeLeft, phase]);
+  }, [timeLeft, phase, started]);
 
   // Can start a round?
   const canStart = useMemo(() => {
@@ -123,6 +125,7 @@ export default function DiceGame() {
     setDie2(null);
     setSum(null);
     setFeedback("");
+    setStarted(false);
   }, []);
 
   // R to reset after win/lose
@@ -143,13 +146,41 @@ export default function DiceGame() {
     phase === "ROLLING" ||
     phase === "RESULT" ||
     phase === "WIN" ||
-    phase === "LOSE";
+    phase === "LOSE" ||
+    !started;
+
+  // Instructions for the modal
+  const instructions = (
+    <>
+      <p>Pick a number between 1 and 12 and choose Over or Under.</p>
+      <p>
+        Two dice will roll. If your bet is correct you gain (other side size) ×
+        10 points; if wrong you lose (your side size) × 10. The goal is to reach{" "}
+        <strong>{WIN_SCORE}</strong> points within {START_TIME_SEC} seconds.
+      </p>
+      <p>Use the form below to place bets. Pressing Roll starts each round.</p>
+      <p>Press R after win/lose to reset.</p>
+    </>
+  );
 
   return (
     <div
       className="panel"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
     >
+      {!started && (
+        <StartButtonInfoModal
+          title="Dice Game"
+          instructions={instructions}
+          onStart={() => setStarted(true)}
+        />
+      )}
+
       {/* Score / Timer */}
       <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -261,7 +292,7 @@ export default function DiceGame() {
               <button
                 type="submit"
                 className="choice"
-                disabled={!canStart}
+                disabled={!canStart || !started}
                 title={
                   !canStart ? "Pick a number 1–12 and Over/Under" : "Roll!"
                 }

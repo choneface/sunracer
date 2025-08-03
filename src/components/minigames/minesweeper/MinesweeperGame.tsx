@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import Cell from "./components/Cell";
 import "./Minesweeper.css";
 
@@ -34,7 +35,6 @@ function neighbors(r: number, c: number) {
 }
 
 function generateBoard(): CellModel[][] {
-  // bombs
   const spots = new Set<number>();
   while (spots.size < BOMBS) {
     spots.add(Math.floor(Math.random() * SIZE * SIZE));
@@ -51,7 +51,6 @@ function generateBoard(): CellModel[][] {
     const c = n % SIZE;
     board[r][c].isBomb = true;
   }
-  // adjacent counts
   for (let r = 0; r < SIZE; r++) {
     for (let c = 0; c < SIZE; c++) {
       if (board[r][c].isBomb) continue;
@@ -66,6 +65,7 @@ function generateBoard(): CellModel[][] {
 }
 
 export default function MinesweeperGame() {
+  const [started, setStarted] = useState(false);
   const [board, setBoard] = useState<CellModel[][]>(() => generateBoard());
   const [phase, setPhase] = useState<Phase>("PLAY");
   const [timeLeft, setTimeLeft] = useState(START_TIME_SEC);
@@ -74,24 +74,23 @@ export default function MinesweeperGame() {
   const totalSafe = useMemo(() => SIZE * SIZE - BOMBS, []);
   const remainingSafe = totalSafe - revealedSafe;
 
-  // Timer – counts down from 60s
+  // Timer – counts down from 60s only when started
   useEffect(() => {
-    if (phase !== "PLAY") return;
+    if (!started || phase !== "PLAY") return;
     if (timeLeft <= 0) {
       setPhase("LOSE");
       return;
     }
     const id = setInterval(() => setTimeLeft((t) => t - 1), 1000);
     return () => clearInterval(id);
-  }, [phase, timeLeft]);
+  }, [phase, timeLeft, started]);
 
   const reveal = useCallback(
     (r: number, c: number) => {
-      if (phase !== "PLAY") return;
+      if (!started || phase !== "PLAY") return;
       const cur = board[r][c];
       if (cur.revealed) return;
 
-      // Deep clone minimal (by rows)
       const next = board.map((row) => row.slice());
       let newlyRevealed = 0;
 
@@ -113,7 +112,6 @@ export default function MinesweeperGame() {
       };
 
       if (cur.isBomb) {
-        // Reveal bomb & lose: (optionally reveal all bombs)
         next[r][c] = { ...cur, revealed: true };
         setBoard(next);
         setPhase("LOSE");
@@ -133,15 +131,23 @@ export default function MinesweeperGame() {
         return final;
       });
     },
-    [board, phase, totalSafe],
+    [board, phase, totalSafe, started],
   );
 
-  // Reset (R) – matches DiceGame behavior and lints cleanly
+  const beginGame = useCallback(() => {
+    setBoard(generateBoard());
+    setPhase("PLAY");
+    setTimeLeft(START_TIME_SEC);
+    setRevealedSafe(0);
+    setStarted(true);
+  }, []);
+
   const resetGame = useCallback(() => {
     setBoard(generateBoard());
     setPhase("PLAY");
     setTimeLeft(START_TIME_SEC);
     setRevealedSafe(0);
+    setStarted(false);
   }, []);
 
   useEffect(() => {
@@ -157,11 +163,39 @@ export default function MinesweeperGame() {
     return () => window.removeEventListener("keydown", onKey);
   }, [phase, resetGame]);
 
+  const instructions = (
+    <>
+      <p>Reveal all safe tiles without hitting a bomb.</p>
+      <ul>
+        <li>Click a cell to reveal it.</li>
+        <li>If you reveal a bomb, you lose immediately.</li>
+        <li>Revealing a zero will flood-fill its neighbors.</li>
+        <li>You have {START_TIME_SEC} seconds to clear the board.</li>
+        <li>
+          Win by revealing all non-bomb cells. Press R after win/lose to retry.
+        </li>
+      </ul>
+    </>
+  );
+
   return (
     <div
       className="panel"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
     >
+      {!started && (
+        <StartButtonInfoModal
+          title="Minesweeper"
+          instructions={instructions}
+          onStart={beginGame}
+        />
+      )}
+
       {/* Header: time + remaining safe */}
       <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -182,7 +216,7 @@ export default function MinesweeperGame() {
         <CenteredOverlay title="You Lose!" subtitle="Retry with R" />
       )}
       {phase === "WIN" && (
-        <CenteredOverlay title="You Win!" subtitle="Reset with R" />
+        <CenteredOverlay title="You Win!" subtitle="Retry with R" />
       )}
 
       {/* Board */}

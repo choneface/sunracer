@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import BoardCell from "./components/BoardCell";
 import "./SnakeGame.css";
 
@@ -12,7 +13,6 @@ const GOAL = 5; // collect 5 foods
 const TICK_MS = 300;
 
 function wrap(n: number) {
-  // wrap index into [0, SIZE)
   return (n + SIZE) % SIZE;
 }
 
@@ -29,13 +29,13 @@ function randEmpty(snake: Pos[]): Pos {
       if (!taken.has(key)) free.push({ r, c });
     }
   }
-  // If somehow full, fallback to 0,0
   return free.length
     ? free[Math.floor(Math.random() * free.length)]
     : { r: 0, c: 0 };
 }
 
 export default function SnakeGame() {
+  const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>("READY");
   const [snake, setSnake] = useState<Pos[]>(() => [
     { r: Math.floor(SIZE / 2), c: Math.floor(SIZE / 2) },
@@ -46,7 +46,7 @@ export default function SnakeGame() {
   );
 
   // Derived
-  const collected = useMemo(() => Math.max(0, snake.length - 1), [snake]); // grew once per food
+  const collected = useMemo(() => Math.max(0, snake.length - 1), [snake]);
   const remaining = GOAL - collected;
 
   // Refs to avoid stale closures inside interval
@@ -69,6 +69,7 @@ export default function SnakeGame() {
     setDir("RIGHT");
     setFood(randEmpty([startPos]));
     setPhase("READY");
+    setStarted(false);
   }, []);
 
   useEffect(() => {
@@ -86,8 +87,6 @@ export default function SnakeGame() {
       if (phaseRef.current !== "PLAY") return;
 
       const d = dirRef.current;
-
-      // WASD controls
       if (k === "w" && d !== "DOWN") setDir("UP");
       else if (k === "s" && d !== "UP") setDir("DOWN");
       else if (k === "a" && d !== "RIGHT") setDir("LEFT");
@@ -100,7 +99,7 @@ export default function SnakeGame() {
 
   // Game loop
   useEffect(() => {
-    if (phase !== "PLAY") return;
+    if (!started || phase !== "PLAY") return;
     const id = window.setInterval(() => {
       setSnake((prev) => {
         const head = prev[0];
@@ -114,30 +113,23 @@ export default function SnakeGame() {
         else if (d === "RIGHT") nc = wrap(head.c + 1);
 
         const newHead: Pos = { r: nr, c: nc };
-
-        // Will we eat?
         const willEat = eq(newHead, foodRef.current);
 
-        // Compute next snake
-        const next = [newHead, ...prev]; // add head
-        if (!willEat) next.pop(); // move tail unless eating
+        const next = [newHead, ...prev];
+        if (!willEat) next.pop();
 
-        // Self collision check (head overlapping any other segment)
+        // Self collision
         for (let i = 1; i < next.length; i++) {
           if (eq(newHead, next[i])) {
             setPhase("LOSE");
-            return prev; // keep old to avoid flicker
+            return prev;
           }
         }
 
-        // Eating
         if (willEat) {
-          // place new food
           const nf = randEmpty(next);
           setFood(nf);
-
-          // win check after growth
-          const grew = next.length - 1; // foods eaten
+          const grew = next.length - 1;
           if (grew >= GOAL) {
             setPhase("WIN");
           }
@@ -148,14 +140,18 @@ export default function SnakeGame() {
     }, TICK_MS);
 
     return () => window.clearInterval(id);
-  }, [phase]);
+  }, [phase, started]);
 
-  const start = useCallback(() => {
+  // Start via modal
+  const begin = useCallback(() => {
     if (phase !== "READY") return;
+    setStarted(true);
     setPhase("PLAY");
   }, [phase]);
 
-  // Render grid cells
+  const isPlaying = started && phase !== "WIN" && phase !== "LOSE";
+
+  // Render helpers
   const isSnakeAt = useCallback(
     (r: number, c: number) => snake.some((s) => s.r === r && s.c === c),
     [snake],
@@ -166,11 +162,37 @@ export default function SnakeGame() {
     [snake],
   );
 
+  const instructions = (
+    <>
+      <p>Control the snake with W/A/S/D. The board wraps around edges.</p>
+      <ul>
+        <li>Collect {GOAL} white circles (food); snake grows after each.</li>
+        <li>Avoid hitting yourself—collision ends the game.</li>
+        <li>
+          Win by collecting all {GOAL} foods. Press R after win/lose to retry.
+        </li>
+      </ul>
+    </>
+  );
+
   return (
     <div
       className="panel"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
     >
+      {!started && (
+        <StartButtonInfoModal
+          title="Snake"
+          instructions={instructions}
+          onStart={begin}
+        />
+      )}
+
       {/* Header: progress */}
       <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -189,11 +211,11 @@ export default function SnakeGame() {
         <CenteredOverlay title="You Lose!" subtitle="Retry with R" />
       )}
       {phase === "WIN" && (
-        <CenteredOverlay title="You Win!" subtitle="Reset with R" />
+        <CenteredOverlay title="You Win!" subtitle="Retry with R" />
       )}
 
-      {/* Board + controls */}
-      {phase !== "WIN" && phase !== "LOSE" && (
+      {/* Board + hint */}
+      {isPlaying && (
         <>
           <div
             className="panel"
@@ -225,19 +247,9 @@ export default function SnakeGame() {
           </div>
 
           <div className="panel" style={{ marginTop: 0 }}>
-            {phase === "READY" ? (
-              <button
-                type="button"
-                className="choice sn-start-btn"
-                onClick={start}
-              >
-                Start
-              </button>
-            ) : (
-              <div style={{ textAlign: "center", opacity: 0.9 }}>
-                Use <strong>W/A/S/D</strong> to move. Collect {GOAL} circles.
-              </div>
-            )}
+            <div style={{ textAlign: "center", opacity: 0.9 }}>
+              Use <strong>W/A/S/D</strong> to move. Collect {GOAL} circles.
+            </div>
           </div>
         </>
       )}

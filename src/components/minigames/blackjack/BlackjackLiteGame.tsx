@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import type { Face } from "./components/BlackjackCard";
 import BlackjackHand from "./components/BlackjackHand";
 import BlackjackControls from "./components/BlackjackControls";
@@ -47,35 +48,30 @@ function cardValue(c: Card): number {
 function handValue(cards: Card[]) {
   let total = cards.reduce((s, c) => s + cardValue(c), 0);
   let aces = cards.filter((c) => c.rank === "A").length;
-  // Soft aces -> hard as needed
   while (total > 21 && aces > 0) {
-    total -= 10; // count this Ace as 1 instead of 11
+    total -= 10;
     aces--;
   }
   return total;
 }
 
 export default function BlackjackLiteGame() {
+  const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>("READY");
 
-  // Dealer & Player hands
   const [dealer, setDealer] = useState<Card[]>([]);
   const [player, setPlayer] = useState<Card[]>([]);
 
-  // Spinner for the card currently being dealt
   const [spinner, setSpinner] = useState<{
     to: "dealer" | "player";
     face: Face;
   } | null>(null);
 
-  // “Bust!” banner location
   const [bust, setBust] = useState<"" | "dealer" | "player">("");
 
-  // Derived values
   const dealerTotal = useMemo(() => handValue(dealer), [dealer]);
   const playerTotal = useMemo(() => handValue(player), [player]);
 
-  // Deal animation to a side; resolves after the card lands
   const dealTo = useCallback(async (to: "dealer" | "player"): Promise<Face> => {
     setSpinner({ to, face: randFace() });
     const tick = window.setInterval(() => {
@@ -92,7 +88,6 @@ export default function BlackjackLiteGame() {
     return final;
   }, []);
 
-  // Start button pressed
   const startGame = useCallback(async () => {
     if (phase !== "READY") return;
     setDealer([]);
@@ -100,13 +95,12 @@ export default function BlackjackLiteGame() {
     setBust("");
     setPhase("DEALER");
 
-    // Dealer turn with local copy
     const localDealer: Face[] = [];
     while (true) {
       if (localDealer.length >= 3) break;
       const card = await dealTo("dealer");
       localDealer.push(card);
-      const val = handValue(localDealer);
+      const val = handValue(localDealer as Card[]);
       if (val > 21) {
         setBust("dealer");
         await new Promise((r) => setTimeout(r, SPIN_MS));
@@ -124,7 +118,6 @@ export default function BlackjackLiteGame() {
     await dealTo("player");
   }, [phase, dealTo]);
 
-  // Player actions
   const onHit = useCallback(async () => {
     if (phase !== "PLAYER") return;
     if (player.length >= 3) return;
@@ -133,7 +126,6 @@ export default function BlackjackLiteGame() {
 
   const resolveOutcome = useCallback(() => {
     setPhase("RESOLVE");
-    // Evaluate winner; ties count as dealer win (simplified)
     const d = handValue(dealer);
     const p = handValue(player);
 
@@ -172,13 +164,13 @@ export default function BlackjackLiteGame() {
     }
   }, [player, phase, resolveOutcome]);
 
-  // Reset with R (on overlays)
   const resetGame = useCallback(() => {
     setPhase("READY");
     setDealer([]);
     setPlayer([]);
     setSpinner(null);
     setBust("");
+    setStarted(false);
   }, []);
 
   useEffect(() => {
@@ -195,12 +187,47 @@ export default function BlackjackLiteGame() {
   }, [phase, resetGame]);
 
   const dealingDealer = phase === "DEALER";
+  const isActive = started && phase !== "WIN" && phase !== "LOSE";
+
+  const instructions = (
+    <>
+      <p>
+        Blackjack Lite: one player vs dealer. Dealer hits on 16 or less, up to 3
+        cards.
+      </p>
+      <ul>
+        <li>Dealer is dealt first (with animation), then you get one card.</li>
+        <li>You can Hit up to 3 cards or Stand to resolve.</li>
+        <li>Busting loses immediately; if dealer busts you win.</li>
+        <li>Ties go to dealer. Press R after win/lose to retry.</li>
+      </ul>
+    </>
+  );
+
+  const begin = useCallback(() => {
+    if (started) return;
+    setStarted(true);
+    startGame();
+  }, [started, startGame]);
 
   return (
     <div
       className="panel"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
     >
+      {!started && (
+        <StartButtonInfoModal
+          title="Blackjack Lite"
+          instructions={instructions}
+          onStart={begin}
+        />
+      )}
+
       {/* Header */}
       <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -223,10 +250,9 @@ export default function BlackjackLiteGame() {
       )}
 
       {/* Table */}
-      {phase !== "WIN" && phase !== "LOSE" && (
+      {isActive && (
         <>
           <div className="panel bj-table">
-            {/* Dealer zone */}
             <BlackjackHand
               title="Dealer"
               cards={dealer}
@@ -237,7 +263,6 @@ export default function BlackjackLiteGame() {
 
             <div className="bj-divider" />
 
-            {/* Player zone */}
             <BlackjackHand
               title="You"
               cards={player}
@@ -248,16 +273,6 @@ export default function BlackjackLiteGame() {
 
           {/* Controls */}
           <div className="panel" style={{ marginTop: 0, textAlign: "center" }}>
-            {phase === "READY" && (
-              <button
-                type="button"
-                className="choice bj-start"
-                onClick={startGame}
-              >
-                Start
-              </button>
-            )}
-
             {dealingDealer && (
               <div className="bj-status">Dealing cards to the dealer…</div>
             )}

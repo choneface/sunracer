@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import GuessLog from "./components/GuessLog";
 import Keypad from "./components/Keypad";
 import "./codeCracker.css";
@@ -22,7 +23,6 @@ function generateSecret(): string {
 }
 
 function computeFeedback(secret: string, guess: string): string {
-  // Exact matches first
   const secretArr = secret.split("");
   const guessArr = guess.split("");
   const exactMask = Array(CODE_LENGTH).fill(false);
@@ -30,7 +30,6 @@ function computeFeedback(secret: string, guess: string): string {
   let pluses = 0;
   let questions = 0;
 
-  // pluses
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessArr[i] === secretArr[i]) {
       pluses++;
@@ -39,7 +38,6 @@ function computeFeedback(secret: string, guess: string): string {
     }
   }
 
-  // ? for correct digit wrong place (avoid double counting)
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (exactMask[i]) continue;
     for (let j = 0; j < CODE_LENGTH; j++) {
@@ -57,6 +55,7 @@ function computeFeedback(secret: string, guess: string): string {
 }
 
 export default function CodeCrackerGame() {
+  const [started, setStarted] = useState(false);
   const [secret, setSecret] = useState<string>(() => generateSecret());
   const [guesses, setGuesses] = useState<GuessEntry[]>([]);
   const [current, setCurrent] = useState<string>(""); // typed / keypad
@@ -73,6 +72,7 @@ export default function CodeCrackerGame() {
     setCurrent("");
     setStatus("PLAY");
     setHighlightId(null);
+    setStarted(false);
   }, []);
 
   const submitGuess = useCallback(() => {
@@ -87,7 +87,6 @@ export default function CodeCrackerGame() {
     setHighlightId(id);
     setCurrent("");
 
-    // highlight momentarily
     setTimeout(() => setHighlightId(null), 800);
 
     if (current === secret) {
@@ -135,6 +134,25 @@ export default function CodeCrackerGame() {
     submitGuess();
   }, [submitGuess]);
 
+  const instructions = (
+    <>
+      <p>
+        Guess the secret {CODE_LENGTH}-digit code within {MAX_ATTEMPTS}{" "}
+        attempts.
+      </p>
+      <ul>
+        <li>
+          After each guess you get feedback: <strong>+</strong> is correct digit
+          in correct position, <strong>?</strong> is correct digit wrong place.
+        </li>
+        <li>Use the keypad or type digits; press Enter to submit.</li>
+        <li>
+          Win by exact match. Lose if you exhaust attempts. Press R to retry.
+        </li>
+      </ul>
+    </>
+  );
+
   return (
     <div
       className="panel codecracker-panel"
@@ -145,7 +163,15 @@ export default function CodeCrackerGame() {
         position: "relative",
       }}
     >
-      {status === "PLAY" && (
+      {!started && (
+        <StartButtonInfoModal
+          title="Code Cracker"
+          instructions={instructions}
+          onStart={() => setStarted(true)}
+        />
+      )}
+
+      {started && status === "PLAY" && (
         <div className="codecracker-grid" style={{ flex: 1 }}>
           {/* Left: log */}
           <div className="codecracker-col log-col scene-column">
@@ -194,17 +220,17 @@ export default function CodeCrackerGame() {
         </div>
       )}
 
-      {/* Overlays (same pattern as DiceGame) */}
+      {/* Overlays */}
       {status === "WIN" && (
         <CenteredOverlay
           title="You Win!"
-          subtitle={`Code: ${secret}, Replay with R`}
+          subtitle={`Code: ${secret} · Retry with R`}
         />
       )}
       {status === "LOSE" && (
         <CenteredOverlay
           title="You Lose!"
-          subtitle={`Secret: ${secret}, Replay with R`}
+          subtitle={`Secret: ${secret} · Retry with R`}
         />
       )}
     </div>

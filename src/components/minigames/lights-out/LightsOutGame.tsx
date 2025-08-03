@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import "./lightsOut.css";
 
 type Phase = "READY" | "PLAY" | "END";
@@ -39,6 +40,7 @@ function toggleAt(grid: boolean[][], r: number, c: number) {
 }
 
 export default function LightsOutGame() {
+  const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>("READY");
   const [grid, setGrid] = useState<boolean[][]>(() => makeStartingBoard());
   const [moves, setMoves] = useState(0);
@@ -69,6 +71,7 @@ export default function LightsOutGame() {
     setTimeLeft(START_TIME);
     setPhase("PLAY");
     setHovered(null);
+    setStarted(true);
   }, []);
 
   const resetGame = useCallback(() => {
@@ -77,6 +80,7 @@ export default function LightsOutGame() {
     setTimeLeft(START_TIME);
     setPhase("READY");
     setHovered(null);
+    setStarted(false);
   }, []);
 
   // Toggle handler
@@ -129,78 +133,95 @@ export default function LightsOutGame() {
     return () => window.removeEventListener("keydown", onKey);
   }, [phase, resetGame]);
 
+  const instructions = (
+    <>
+      <p>
+        Toggle a cell to flip it and its orthogonal neighbors. Your goal is to
+        turn off as many lights as possible in 60 seconds.
+      </p>
+      <ul>
+        <li>Each toggle counts as a move.</li>
+        <li>Hover or focus to preview which neighbors will be affected.</li>
+        <li>
+          Score is number of lights off × 10 when time expires or all are off.
+        </li>
+        <li>Press R after the final score to retry.</li>
+      </ul>
+    </>
+  );
+
   return (
     <div
       className="panel"
-      style={{ height: "100%", display: "flex", flexDirection: "column" }}
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
     >
+      {!started && (
+        <StartButtonInfoModal
+          title="Lights Out"
+          instructions={instructions}
+          onStart={startGame}
+        />
+      )}
+
       {/* Top bar */}
       {(phase === "PLAY" || phase === "READY") && (
-        <>
-          <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>
-                <strong>Moves:</strong> {moves}
-              </div>
-              <div>
-                <strong>Time:</strong> {timeLeft}s
-              </div>
-              <div style={{ width: "4ch" }} />
+        <div className="panel" style={{ margin: 0, marginBottom: "0.75rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <strong>Moves:</strong> {moves}
+            </div>
+            <div>
+              <strong>Time:</strong> {timeLeft}s
+            </div>
+            <div style={{ width: "4ch" }} />
+          </div>
+        </div>
+      )}
+
+      {/* Grid */}
+      {phase === "PLAY" && (
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div className="lo-wrapper">
+            <div className="lo-grid" aria-label="Lights Out grid">
+              {grid.map((row, r) =>
+                row.map((on, c) => {
+                  const isNeighbor = neighborCells.has(`${r},${c}`);
+                  return (
+                    <button
+                      key={`${r}-${c}`}
+                      type="button"
+                      className={`lo-cell ${on ? "on" : "off"} ${
+                        hovered && hovered.r === r && hovered.c === c
+                          ? "hovered"
+                          : ""
+                      } ${isNeighbor ? "neighbor" : ""}`}
+                      onClick={() => handleToggle(r, c)}
+                      onMouseEnter={() => setHovered({ r, c })}
+                      onMouseLeave={() => setHovered(null)}
+                      onFocus={() => setHovered({ r, c })}
+                      onBlur={() => setHovered(null)}
+                      aria-label={`Cell ${r + 1},${c + 1} is ${on ? "on" : "off"}`}
+                    />
+                  );
+                }),
+              )}
             </div>
           </div>
-
-          {/* Grid / start */}
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {phase === "READY" && (
-              <div className="lo-start-wrapper">
-                <button
-                  type="button"
-                  className="choice sn-start-btn lo-start-btn"
-                  onClick={startGame}
-                >
-                  Start
-                </button>
-              </div>
-            )}
-
-            {phase === "PLAY" && (
-              <div className="lo-wrapper">
-                <div className="lo-grid" aria-label="Lights Out grid">
-                  {grid.map((row, r) =>
-                    row.map((on, c) => {
-                      const isNeighbor = neighborCells.has(`${r},${c}`);
-                      return (
-                        <button
-                          key={`${r}-${c}`}
-                          type="button"
-                          className={`lo-cell ${on ? "on" : "off"} ${
-                            hovered && hovered.r === r && hovered.c === c
-                              ? "hovered"
-                              : ""
-                          } ${isNeighbor ? "neighbor" : ""}`}
-                          onClick={() => handleToggle(r, c)}
-                          onMouseEnter={() => setHovered({ r, c })}
-                          onMouseLeave={() => setHovered(null)}
-                          onFocus={() => setHovered({ r, c })}
-                          onBlur={() => setHovered(null)}
-                          aria-label={`Cell ${r + 1},${c + 1} is ${on ? "on" : "off"}`}
-                        />
-                      );
-                    }),
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </>
+        </div>
       )}
+
       {/* Final overlay */}
       {phase === "END" && (
         <CenteredOverlay

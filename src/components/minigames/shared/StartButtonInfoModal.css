@@ -1,0 +1,58 @@
+.sbim-backdrop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(21, 25, 30, 0.95);
+  z-index: 20;
+  padding: 1rem;
+}
+
+.sbim-box {
+  max-width: 500px;
+  width: 100%;
+  border: 1px solid #ffffff;
+  background: #15191e;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+}
+
+.sbim-header h2 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.sbim-content {
+  flex: 1;
+  overflow: auto;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.sbim-actions {
+  margin-top: 0.5rem;
+}
+
+.sbim-start-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ffffff;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    font-weight 120ms ease-in,
+    background 120ms ease-in;
+}
+
+.sbim-start-btn:hover,
+.sbim-start-btn:focus {
+  background: #0f1317;
+  font-weight: 700;
+  outline: none;
+}
