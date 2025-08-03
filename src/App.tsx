@@ -2,7 +2,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import StartMenu from "./components/StartMenu";
 import PlaceholderScene from "./scenes/PlaceHolderScene";
 import MinigamesMenu from "./components/MinigamesMenu";
-import { GuessNumber } from "./components/minigames/GuessNumber";
 import type { MinigameSpec } from "./components/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
 import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame";
@@ -11,12 +10,6 @@ import SnakeGame from "./components/minigames/snake/SnakeGame";
 import BlackjackLiteGame from "./components/minigames/blackjack/BlackjackLiteGame";
 
 const minigames: MinigameSpec[] = [
-  {
-    id: "guess-number",
-    title: "Guess Number",
-    description: "Guess a number between 1 and 10",
-    Component: GuessNumber,
-  },
   {
     id: "dice-game",
     title: "Dice Game",
