@@ -1,4 +1,4 @@
-import BlackjackCard, { type Face } from "./BlackJackCard";
+import BlackjackCard, { type Face } from "./BlackjackCard";
 
 export default function BlackjackHand({
   title,

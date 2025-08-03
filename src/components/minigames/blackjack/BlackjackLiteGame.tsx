@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
-import type { Face } from "./components/BlackJackCard";
-import BlackjackHand from "./components/BlackJackHand";
-import BlackjackControls from "./components/BlackJackControls";
+import type { Face } from "./components/BlackjackCard";
+import BlackjackHand from "./components/BlackjackHand";
+import BlackjackControls from "./components/BlackjackControls";
 import "./BlackjackLiteGame.css";
 
 type Phase = "READY" | "DEALER" | "PLAYER" | "RESOLVE" | "WIN" | "LOSE";

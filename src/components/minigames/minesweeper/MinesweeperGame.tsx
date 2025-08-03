@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
 import Cell from "./components/Cell";
-import "./minesweeper.css";
+import "./Minesweeper.css";
 
 type Phase = "PLAY" | "WIN" | "LOSE";
 
