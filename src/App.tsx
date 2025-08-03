@@ -7,6 +7,7 @@ import type { MinigameSpec } from "./components/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
 import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame";
 import KeypadGame from "./components/minigames/keypad/KeypadGame";
+import SnakeGame from "./components/minigames/snake/SnakeGame";
 
 const minigames: MinigameSpec[] = [
   {
@@ -32,6 +33,12 @@ const minigames: MinigameSpec[] = [
     title: "Keypad",
     description: "Guess the number in 3 rounds",
     Component: KeypadGame,
+  },
+  {
+    id: "snake",
+    title: "Snake",
+    description: "Eat the food and avoid the walls",
+    Component: SnakeGame,
   },
 ];
 
