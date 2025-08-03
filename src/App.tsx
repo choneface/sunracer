@@ -8,6 +8,7 @@ import DiceGame from "./components/minigames/dice-game/DiceGame";
 import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame";
 import KeypadGame from "./components/minigames/keypad/KeypadGame";
 import SnakeGame from "./components/minigames/snake/SnakeGame";
+import BlackjackLiteGame from "./components/minigames/blackjack/BlackjackLiteGame";
 
 const minigames: MinigameSpec[] = [
   {
@@ -39,6 +40,12 @@ const minigames: MinigameSpec[] = [
     title: "Snake",
     description: "Eat the food and avoid the walls",
     Component: SnakeGame,
+  },
+  {
+    id: "blackjack",
+    title: "Blackjack Lite",
+    description: "Three card black jack with simplified rules",
+    Component: BlackjackLiteGame,
   },
 ];
 

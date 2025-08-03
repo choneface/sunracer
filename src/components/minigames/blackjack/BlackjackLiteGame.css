@@ -1,0 +1,126 @@
+/* Table container (two zones with divider) */
+.bj-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bj-hand {
+  position: relative;
+  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+  border: 1px solid #ffffff;
+  background: #15191e;
+}
+
+.bj-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.bj-bust {
+  position: absolute;
+  top: -0.85rem;
+  right: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid #ffffff;
+  background: #15191e;
+  animation: bj-flash 300ms ease-in-out 5;
+}
+@keyframes bj-flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.bj-cards {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+/* Divider between dealer and player areas */
+.bj-divider {
+  border-top: 1px solid #ffffff;
+  margin: 0.25rem 0;
+}
+
+/* Start button / status text */
+.bj-start {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ffffff;
+  background: transparent;
+  text-align: center;
+}
+.bj-status {
+  opacity: 0.9;
+  font-weight: 700;
+}
+
+/* Controls */
+.bj-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.bj-btn {
+  border: 1px solid #ffffff;
+  background: transparent;
+  padding: 0.5rem 1rem;
+}
+.bj-btn:hover,
+.bj-btn:focus-visible {
+  background: #0f1317;
+  font-weight: 700;
+}
+
+/* Card visuals */
+.bj-card {
+  width: 3.5rem;
+  height: 5rem;
+  border: 1px solid #ffffff;
+  border-radius: 0.4rem;
+  background: #15191e;
+  position: relative;
+}
+
+.bj-card-spin {
+  animation: bj-spin 180ms linear infinite;
+}
+@keyframes bj-spin {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.4);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.bj-corner {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.35rem;
+  text-align: left;
+  line-height: 1;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+}
+.bj-corner.red {
+  color: #ffcccc;
+}
+
+.bj-rank {
+  font-size: 1rem;
+}
+.bj-suit {
+  font-size: 0.9rem;
+}

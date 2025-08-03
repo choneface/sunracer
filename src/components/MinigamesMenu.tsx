@@ -89,7 +89,7 @@ export default function MinigamesMenu({
           <h2 className="panel-title">Minigames</h2>
           <p className="panel-subtitle">
             {hasGames
-              ? "Use ↑/↓ to choose, Enter to load. Press q to exit."
+              ? "Collection of minigames for testing purposes. Press q to exit."
               : "No games available."}
           </p>
         </div>
