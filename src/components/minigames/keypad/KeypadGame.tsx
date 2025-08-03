@@ -85,7 +85,7 @@ export default function KeypadGame() {
         if (prev.length >= DIGITS) return prev;
         const next = [...prev, d];
         setDisplayDigits((boxes) =>
-          boxes.map((v, i) => (i < next.length ? next[i] : null)),
+          boxes.map((_, i) => (i < next.length ? next[i] : null)),
         );
         return next;
       });
@@ -99,7 +99,7 @@ export default function KeypadGame() {
       if (prev.length === 0) return prev;
       const next = prev.slice(0, -1);
       setDisplayDigits((boxes) =>
-        boxes.map((v, i) => (i < next.length ? next[i] : null)),
+        boxes.map((_, i) => (i < next.length ? next[i] : null)),
       );
       return next;
     });
