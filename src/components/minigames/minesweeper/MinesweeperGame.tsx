@@ -12,8 +12,8 @@ type CellModel = {
   adjacent: number; // 0..8
 };
 
-const SIZE = 5;
-const BOMBS = 3;
+const SIZE = 10;
+const BOMBS = 10;
 const START_TIME_SEC = 60;
 
 function inBounds(r: number, c: number) {

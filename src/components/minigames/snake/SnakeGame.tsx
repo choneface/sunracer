@@ -8,7 +8,7 @@ type Phase = "READY" | "PLAY" | "WIN" | "LOSE";
 type Dir = "UP" | "DOWN" | "LEFT" | "RIGHT";
 type Pos = { r: number; c: number };
 
-const SIZE = 5;
+const SIZE = 10;
 const GOAL = 5; // collect 5 foods
 const TICK_MS = 300;
 
