@@ -10,6 +10,7 @@ import SnakeGame from "./components/minigames/snake/SnakeGame";
 import BlackjackLiteGame from "./components/minigames/blackjack/BlackjackLiteGame";
 import CodeCrackerGame from "./components/minigames/codecracker/CodeCrackerGame.tsx";
 import LightsOutGame from "./components/minigames/lights-out/LightsOutGame.tsx";
+import SnowfallGame from "./components/minigames/snowfall/SnowfallGame.tsx";
 
 const minigames: MinigameSpec[] = [
   {
@@ -53,6 +54,12 @@ const minigames: MinigameSpec[] = [
     title: "Lights Out",
     description: "Shut out all the lights within 60s",
     Component: LightsOutGame,
+  },
+  {
+    id: "snowfall",
+    title: "Snowfall",
+    description: "Type the falling letters before they hit the ground",
+    Component: SnowfallGame,
   },
 ];
 
