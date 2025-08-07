@@ -6,6 +6,7 @@ on:
   pull_request:
     paths-ignore:
       - 'functions/**'
+      - '.github/workflows/deploy-functions.yml'
 permissions:
   checks: write
   contents: read
