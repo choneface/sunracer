@@ -1,0 +1,49 @@
+.sf-viewbox {
+  border: 1px solid #ffffff;
+  padding: 0.5rem;
+  width: max-content;
+  background: transparent;
+}
+
+.sf-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 2.5rem);
+  grid-template-rows: repeat(6, 2.5rem);
+  gap: 0.35rem;
+}
+
+.sf-cell {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: "Fira Code", monospace;
+  font-size: 1.25rem;
+  color: #ffffff;
+  background: transparent;
+}
+
+.sf-letter {
+  font-weight: 700;
+}
+
+.flash {
+  animation: flash-pop 0.5s ease-out;
+}
+
+@keyframes flash-pop {
+  0% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}

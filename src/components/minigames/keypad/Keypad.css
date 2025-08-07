@@ -1,0 +1,80 @@
+/* Circles */
+.kp-circles {
+  display: flex;
+  gap: 0.5rem;
+}
+.kp-circle {
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid #ffffff;
+  border-radius: 999px;
+  background: #15191e;
+  display: inline-block;
+}
+.kp-circle.filled {
+  background: #ffffff;
+}
+
+/* Digit boxes (5) */
+.kp-digits {
+  display: grid;
+  grid-template-columns: repeat(5, 2.5rem);
+  gap: 0.5rem;
+  justify-content: center;
+}
+.kp-digit-box {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid #ffffff;
+  background: #15191e;
+  color: #ffffff;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.kp-digits-highlight .kp-digit-box {
+  font-weight: 700;
+  background: #0f1317;
+}
+
+/* Start button / loading */
+.kp-start-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border: 1px solid #ffffff;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+}
+.kp-loading {
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Keypad */
+.kp-pad {
+  display: grid;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.kp-row {
+  display: grid;
+  grid-template-columns: repeat(3, 4rem);
+  gap: 0.5rem;
+  justify-content: center;
+}
+.kp-key {
+  border: 1px solid #ffffff;
+  background: transparent;
+  padding: 0.5rem 0;
+  text-align: center;
+  font-family: inherit;
+  color: inherit;
+}
+.kp-key:hover,
+.kp-key:focus {
+  background: #0f1317;
+  font-weight: 700;
+}
