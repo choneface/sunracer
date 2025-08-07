@@ -24,7 +24,7 @@ export default function Numpad({
                 <button
                   key={j}
                   type="button"
-                  className="choice kp-key"
+                  className="kp-key"
                   onClick={onClear}
                 >
                   CLR
@@ -36,7 +36,7 @@ export default function Numpad({
                 <button
                   key={j}
                   type="button"
-                  className="choice kp-key"
+                  className="kp-key"
                   onClick={onBackspace}
                 >
                   ⌫
@@ -47,7 +47,7 @@ export default function Numpad({
               <button
                 key={j}
                 type="button"
-                className="choice kp-key"
+                className="kp-key"
                 onClick={() => onDigit(cell as number)}
               >
                 {cell}

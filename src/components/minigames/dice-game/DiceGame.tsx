@@ -271,7 +271,7 @@ export default function DiceGame() {
               <div style={{ display: "flex", gap: "0.5rem" }}>
                 <button
                   type="button"
-                  className="choice"
+                  className="dg-btn"
                   disabled={inputsDisabled}
                   onClick={() => setBetDir("UNDER")}
                   aria-pressed={betDir === "UNDER"}
@@ -280,7 +280,7 @@ export default function DiceGame() {
                 </button>
                 <button
                   type="button"
-                  className="choice"
+                  className="dg-btn"
                   disabled={inputsDisabled}
                   onClick={() => setBetDir("OVER")}
                   aria-pressed={betDir === "OVER"}
@@ -291,7 +291,7 @@ export default function DiceGame() {
 
               <button
                 type="submit"
-                className="choice"
+                className="dg-btn"
                 disabled={!canStart || !started}
                 title={
                   !canStart ? "Pick a number 1–12 and Over/Under" : "Roll!"

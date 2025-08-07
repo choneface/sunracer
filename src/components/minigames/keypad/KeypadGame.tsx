@@ -240,7 +240,7 @@ export default function KeypadGame() {
             {phase === "READY" && (
               <button
                 type="button"
-                className="choice kp-start-btn"
+                className="kp-start-btn"
                 onClick={startRound}
                 disabled={!started}
               >

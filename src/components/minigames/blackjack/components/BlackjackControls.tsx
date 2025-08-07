@@ -11,13 +11,13 @@ export default function BlackjackControls({
     <div className="bj-controls">
       <button
         type="button"
-        className="choice bj-btn"
+        className="bj-btn"
         onClick={onHit}
         disabled={!canHit}
       >
         Hit
       </button>
-      <button type="button" className="choice bj-btn" onClick={onStand}>
+      <button type="button" className="bj-btn" onClick={onStand}>
         Stand
       </button>
     </div>

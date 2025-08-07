@@ -174,7 +174,7 @@ export default function CodeCrackerGame() {
       {started && status === "PLAY" && (
         <div className="codecracker-grid" style={{ flex: 1 }}>
           {/* Left: log */}
-          <div className="codecracker-col log-col scene-column">
+          <div className="codecracker-col log-col">
             <div className="panel" style={{ marginBottom: "0.5rem" }}>
               <div
                 style={{
@@ -195,7 +195,7 @@ export default function CodeCrackerGame() {
           </div>
 
           {/* Right: input */}
-          <div className="codecracker-col input-col scene-column">
+          <div className="codecracker-col input-col">
             <div className="panel" style={{ marginBottom: "0.5rem" }}>
               <div style={{ fontWeight: 700, marginBottom: "0.5rem" }}>
                 Current

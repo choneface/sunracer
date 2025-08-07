@@ -26,7 +26,7 @@ export default function StartButtonInfoModal({
         <div className="sbim-actions">
           <button
             type="button"
-            className="choice sbim-start-btn"
+            className="sbim-start-btn"
             onClick={onStart}
             autoFocus
           >

@@ -24,7 +24,7 @@ export default function Keypad({
               return (
                 <button
                   key={cell}
-                  className="choice cc-key"
+                  className="cc-key"
                   onClick={onClear}
                   disabled={disabled}
                 >
@@ -35,7 +35,7 @@ export default function Keypad({
               return (
                 <button
                   key={cell}
-                  className="choice cc-key"
+                  className="cc-key"
                   onClick={onEnter}
                   disabled={disabled}
                 >
@@ -45,7 +45,7 @@ export default function Keypad({
             return (
               <button
                 key={cell}
-                className="choice cc-key"
+                className="cc-key"
                 onClick={() => onDigit(cell)}
                 disabled={disabled}
               >

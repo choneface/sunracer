@@ -80,7 +80,7 @@ export default function MinigamesMenu({
     <div className="minigames-grid">
       {/* Left list */}
       <aside
-        className="minigames-col list-col scene-column"
+        className="minigames-col"
         tabIndex={0}
         onKeyDown={onKeyDown}
         aria-label="Minigames list"
@@ -112,7 +112,7 @@ export default function MinigamesMenu({
                 className={`game-item ${isActive ? "active" : ""}`}
                 onClick={() => setSelectedId(g.id)}
               >
-                <button className="choice game-button" type="button">
+                <button className="game-button" type="button">
                   <span className="game-title">{g.title}</span>
                   {g.description && (
                     <span className="game-desc">{g.description}</span>
@@ -125,7 +125,7 @@ export default function MinigamesMenu({
       </aside>
 
       {/* Right render area */}
-      <main className="minigames-col play-col scene-column">
+      <main className="minigames-col">
         <div className="panel play-header">
           <h2 className="panel-title">
             {selectedIndex >= 0

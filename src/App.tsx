@@ -1,6 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import StartMenu from "./components/StartMenu";
-import PlaceholderScene from "./scenes/PlaceHolderScene";
 import MinigamesMenu from "./components/MinigamesMenu";
 import type { MinigameSpec } from "./components/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
@@ -69,13 +68,12 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<StartMenuWrapper />} />
-      <Route path="/game" element={<PlaceholderScene onDone={() => {}} />} />
       <Route
         path="/minigames"
         element={
           <MinigamesMenu
             minigames={minigames}
-            initialId="guess-number"
+            initialId="dice-game"
             onClose={() => navigate("/")}
           />
         }
@@ -91,7 +89,7 @@ function StartMenuWrapper() {
 
   return (
     <StartMenu
-      onNewGame={() => navigate("/game")}
+      onNewGame={() => alert("Game not implemented")}
       onContinue={() => alert("Continue not implemented")}
       onMinigames={() => navigate("/minigames")}
       onSettings={() => alert("Settings not implemented")}

@@ -74,6 +74,8 @@
   border: 1px solid #ffffff;
   background: transparent;
   padding: 0.5rem 1rem;
+  color: inherit;
+  font-family: inherit;
 }
 .bj-btn:hover,
 .bj-btn:focus-visible {

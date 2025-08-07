@@ -1,20 +1,17 @@
-/* ─────────────────────────────────────────────────────────────
-   Layout (two columns) — mirrors Scene.css look
-───────────────────────────────────────────────────────────── */
 .minigames-grid {
   display: grid;
   grid-template-columns: 1fr 2fr; /* list | play area */
   height: 100vh;
   color: #ffffff;
   font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
-  border: 1px solid #ffffff; /* frame like Scene.css */
+  border: 1px solid #ffffff;
 }
 
 .minigames-col {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-right: 1px solid #ffffff; /* separators like .scene-column */
+  border-right: 1px solid #ffffff;
   overflow: hidden; /* contain panels; inner panels scroll */
 }
 
@@ -22,7 +19,6 @@
   border-right: none;
 }
 
-/* Panels reuse the Scene.css dark box vibe */
 .panel {
   border: 1px solid #ffffff;
   background: #15191e;
@@ -68,12 +64,14 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
+  font-family: inherit;
+  font-size: medium;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
   background: none;
   border: 1px solid #ffffff;
   padding: 0.75rem 1rem;
-  cursor: pointer;
-  text-align: left;
   transition:
     font-weight 120ms ease-in,
     background 120ms ease-in;

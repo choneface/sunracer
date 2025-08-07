@@ -45,6 +45,7 @@
   font-family: inherit;
   cursor: pointer;
   text-align: center;
+  color: inherit;
   transition:
     font-weight 120ms ease-in,
     background 120ms ease-in;
