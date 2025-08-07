@@ -1,4 +1,4 @@
-name: Build Firebase Functions (PR)
+name: build-firebase-functions
 
 on:
   pull_request:
