@@ -3,9 +3,6 @@ import CenteredOverlay from "../dice-game/components/CenteredOverlay";
 import StartButtonInfoModal from "../shared/StartButtonInfoModal";
 import "./SnowfallGame.css";
 
-/////////////////////////////////////
-// CONFIGURABLE CONSTANTS
-/////////////////////////////////////
 const TYPED_LETTER_SCORE_INCREMENT = 10;
 const INCORRECT_LETTER_DEDUCTION = 20;
 const TICK_MS = 600; // how fast letters fall (ms)
