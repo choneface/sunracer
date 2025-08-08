@@ -1,0 +1,30 @@
+/* Centers everything and fills the viewport */
+.small-screen-fallback {
+  display: grid;
+  place-items: center;
+  height: 100dvh; /* full viewport height, respects mobile URL bar */
+  padding: 2rem;
+  text-align: center;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+  color: white;
+}
+
+.small-screen-fallback::after {
+  content: "";
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+  border: 1px solid #ffffff;
+  pointer-events: none; /* don’t block clicks/taps */
+}
+
+.small-screen-fallback h1 {
+  margin-bottom: 0.5rem;
+  font-size: clamp(1.5rem, 4vw, 2.5rem); /* stays readable on any phone */
+}
+
+.small-screen-fallback p {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+}
