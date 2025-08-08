@@ -10,6 +10,8 @@ import BlackjackLiteGame from "./components/minigames/blackjack/BlackjackLiteGam
 import CodeCrackerGame from "./components/minigames/codecracker/CodeCrackerGame.tsx";
 import LightsOutGame from "./components/minigames/lights-out/LightsOutGame.tsx";
 import SnowfallGame from "./components/minigames/snowfall/SnowfallGame.tsx";
+import useMediaQuery from "./hooks/useMediaQuery.ts";
+import SmallScreenFallback from "./components/SmallScreenFallback.tsx";
 
 const minigames: MinigameSpec[] = [
   {
@@ -64,8 +66,11 @@ const minigames: MinigameSpec[] = [
 
 export default function App() {
   const navigate = useNavigate();
+  const isSmall = useMediaQuery("(max-width: 768px)");
 
-  return (
+  return isSmall ? (
+    <SmallScreenFallback />
+  ) : (
     <Routes>
       <Route path="/" element={<StartMenuWrapper />} />
       <Route
