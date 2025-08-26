@@ -1,4 +1,6 @@
-import BlackjackCard, { type Face } from "../../blackjack/components/BlackjackCard";
+import BlackjackCard, {
+  type Face,
+} from "../../blackjack/components/BlackjackCard";
 
 export default function HighCardDrawHand({
   title,

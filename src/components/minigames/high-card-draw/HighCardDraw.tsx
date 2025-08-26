@@ -60,9 +60,9 @@ export default function HighCardDraw() {
     await new Promise((res) => setTimeout(res, SPIN_MS));
     window.clearInterval(tick);
 
-    const opponent= drawCard();
+    const opponent = drawCard();
     let player = drawCard();
-    while(player == opponent) {
+    while (player == opponent) {
       player = drawCard();
     }
     setSpinner(null);
@@ -80,15 +80,15 @@ export default function HighCardDraw() {
 
   const startGame = useCallback(async () => {
     if (phase !== "READY") return;
-    setPhase("DEALING")
-    setCards([])
-    await deal()
-    resolveOutcome()
+    setPhase("DEALING");
+    setCards([]);
+    await deal();
+    resolveOutcome();
   }, [phase, deal, resolveOutcome]);
 
   const resetGame = useCallback(() => {
     setPhase("READY");
-    setCards([])
+    setCards([]);
     setSpinner(null);
     setStarted(false);
   }, []);
@@ -160,7 +160,7 @@ export default function HighCardDraw() {
         <>
           <div className="panel hcd-table">
             <HighCardDrawHand
-              title= "Dealer"
+              title="Dealer"
               cards={[cards[0]]}
               spinning={spinner ? spinner[0] : null}
               bustFlash={false}
