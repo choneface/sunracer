@@ -12,7 +12,7 @@ import LightsOutGame from "./components/minigames/lights-out/LightsOutGame.tsx";
 import SnowfallGame from "./components/minigames/snowfall/SnowfallGame.tsx";
 import useMediaQuery from "./hooks/useMediaQuery.ts";
 import SmallScreenFallback from "./components/SmallScreenFallback.tsx";
-import HighCardDraw from "./components/minigames/high-card-draw/HighCardDraw.tsx";
+import { HighCardDraw } from "./components/minigames/high-card-draw/HighCardDraw.tsx";
 
 const minigames: MinigameSpec[] = [
   {

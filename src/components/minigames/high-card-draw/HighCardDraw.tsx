@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
 import StartButtonInfoModal from "../shared/StartButtonInfoModal";
-import type { Face } from "../blackjack/components/BlackjackCard";
+import type { Face } from "./components/HighCardDrawCard.tsx";
 import HighCardDrawHand from "./components/HighCardDrawHand.tsx";
 import "./HighCardDraw.css";
 
@@ -43,7 +43,7 @@ function cardValue(c: Card): number {
   return Number(c.rank);
 }
 
-export default function HighCardDraw() {
+export function HighCardDraw() {
   const [started, setStarted] = useState(false);
   const [phase, setPhase] = useState<Phase>("READY");
 
@@ -51,7 +51,7 @@ export default function HighCardDraw() {
 
   const [spinner, setSpinner] = useState<Face[] | null>(null);
 
-  const deal = useCallback(async (): Promise<void> => {
+  const deal = useCallback(async (): Promise<[Card, Card]> => {
     setSpinner([randFace(), randFace()]);
     const tick = window.setInterval(() => {
       setSpinner([randFace(), randFace()]);
@@ -61,29 +61,25 @@ export default function HighCardDraw() {
     window.clearInterval(tick);
 
     const opponent = drawCard();
-    let player = drawCard();
-    while (player == opponent) {
-      player = drawCard();
-    }
+    const player = drawCard();
     setSpinner(null);
-    setCards([opponent, player]);
+    return [opponent, player]
   }, []);
 
-  const resolveOutcome = useCallback(() => {
+  const resolveOutcome = useCallback((hand: [Card, Card]) => {
     setPhase("RESOLVE");
-    const d = cardValue(cards[0]);
-    const p = cardValue(cards[1]);
+    const d = cardValue(hand[0]);
+    const p = cardValue(hand[1]);
 
     if (p > d) setPhase("WIN");
     else setPhase("LOSE");
-  }, [cards]);
+  }, []);
 
   const startGame = useCallback(async () => {
     if (phase !== "READY") return;
     setPhase("DEALING");
-    setCards([]);
-    await deal();
-    resolveOutcome();
+    const hand = await deal();
+    resolveOutcome(hand);
   }, [phase, deal, resolveOutcome]);
 
   const resetGame = useCallback(() => {
