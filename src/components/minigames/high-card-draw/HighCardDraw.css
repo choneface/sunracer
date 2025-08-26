@@ -1,0 +1,129 @@
+/* Table container (two zones with divider) */
+.hcd-table {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+.hcd-hand {
+  width: 100%;
+  position: relative;
+  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+  border: 1px solid #ffffff;
+  background: #15191e;
+}
+
+.hcd-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.hcd-bust {
+  position: absolute;
+  top: -0.85rem;
+  right: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid #ffffff;
+  background: #15191e;
+  animation: hcd-flash 300ms ease-in-out 5;
+}
+@keyframes hcd-flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hcd-cards {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+/* Divider between dealer and player areas */
+.hcd-divider {
+  border-top: 1px solid #ffffff;
+  margin: 0.25rem 0;
+}
+
+/* Start button / status text */
+.hcd-start {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ffffff;
+  background: transparent;
+  text-align: center;
+}
+.hcd-status {
+  opacity: 0.9;
+  font-weight: 700;
+}
+
+/* Controls */
+.hcd-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.hcd-btn {
+  border: 1px solid #ffffff;
+  background: transparent;
+  padding: 0.5rem 1rem;
+  color: inherit;
+  font-family: inherit;
+}
+.hcd-btn:hover,
+.hcd-btn:focus-visible {
+  background: #0f1317;
+  font-weight: 700;
+}
+
+/* Card visuals */
+.hcd-card {
+  width: 14rem;
+  height: 20rem;
+  border: 1px solid #ffffff;
+  border-radius: 0.4rem;
+  background: #15191e;
+  position: relative;
+}
+
+.hcd-card-spin {
+  animation: hcd-spin 180ms linear infinite;
+}
+@keyframes hcd-spin {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.4);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.hcd-corner {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.7rem;
+  text-align: left;
+  line-height: 1.5;
+  font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+}
+.hcd-corner.red {
+  color: #ffcccc;
+}
+
+.hcd-rank {
+  font-size: 2rem;
+}
+.hcd-suit {
+  font-size: 1.8rem;
+}
