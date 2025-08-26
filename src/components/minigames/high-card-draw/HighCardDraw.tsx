@@ -63,11 +63,15 @@ export function HighCardDraw() {
     const opponent = drawCard();
     const player = drawCard();
     setSpinner(null);
+    setCards([opponent, player]);
     return [opponent, player]
   }, []);
 
-  const resolveOutcome = useCallback((hand: [Card, Card]) => {
+  const resolveOutcome = useCallback(async (hand: [Card, Card]) => {
     setPhase("RESOLVE");
+
+    await new Promise((res) => setTimeout(res, SPIN_MS));
+
     const d = cardValue(hand[0]);
     const p = cardValue(hand[1]);
 
@@ -79,7 +83,7 @@ export function HighCardDraw() {
     if (phase !== "READY") return;
     setPhase("DEALING");
     const hand = await deal();
-    resolveOutcome(hand);
+    await resolveOutcome(hand);
   }, [phase, deal, resolveOutcome]);
 
   const resetGame = useCallback(() => {
