@@ -111,13 +111,12 @@ export default function HighCardDraw() {
   const instructions = (
     <>
       <p>
-        Blackjack Lite: one player vs dealer. Dealer hits on 16 or less, up to 3
-        cards.
+        High Card Draw: one player vs dealer. Both players draw cards and the high man wins
       </p>
       <ul>
-        <li>Dealer is dealt first (with animation), then you get one card.</li>
-        <li>You can Hit up to 3 cards or Stand to resolve.</li>
-        <li>Busting loses immediately; if dealer busts you win.</li>
+        <li>Cards will be dealt as soon as you press start</li>
+        <li>Only one card will be drawn for each player</li>
+        <li>Standard 1-11 scoring</li>
         <li>Ties go to dealer. Press R after win/lose to retry.</li>
       </ul>
     </>
@@ -141,7 +140,7 @@ export default function HighCardDraw() {
     >
       {!started && (
         <StartButtonInfoModal
-          title="Blackjack Lite"
+          title="High Card Draw"
           instructions={instructions}
           onStart={begin}
         />
