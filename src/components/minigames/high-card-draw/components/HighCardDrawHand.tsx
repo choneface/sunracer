@@ -1,6 +1,6 @@
-import BlackjackCard, {
+import HighCardDrawCard, {
   type Face,
-} from "../../blackjack/components/BlackjackCard";
+} from "./HighCardDrawCard.tsx";
 
 export default function HighCardDrawHand({
   title,
@@ -26,13 +26,13 @@ export default function HighCardDrawHand({
         {slots.map((i) => {
           const card = cards[i];
           if (card) {
-            return <BlackjackCard key={i} face={card} />;
+            return <HighCardDrawCard key={i} face={card} />;
           }
           if (!card && spinning) {
-            return <BlackjackCard key={i} face={spinning} spinning />;
+            return <HighCardDrawCard key={i} face={spinning} spinning />;
           }
           // blank slot
-          return <BlackjackCard key={i} blank />;
+          return <HighCardDrawCard key={i} blank />;
         })}
       </div>
     </div>
