@@ -12,6 +12,7 @@ import LightsOutGame from "./components/minigames/lights-out/LightsOutGame.tsx";
 import SnowfallGame from "./components/minigames/snowfall/SnowfallGame.tsx";
 import useMediaQuery from "./hooks/useMediaQuery.ts";
 import SmallScreenFallback from "./components/SmallScreenFallback.tsx";
+import HighCardDraw from "./components/minigames/high-card-draw/HighCardDraw.tsx";
 
 const minigames: MinigameSpec[] = [
   {
@@ -61,6 +62,12 @@ const minigames: MinigameSpec[] = [
     title: "Snowfall",
     description: "Type the falling letters before they hit the ground",
     Component: SnowfallGame,
+  },
+  {
+    id: "high-card-draw",
+    title: "High Card Draw",
+    description: "Both players draw a card, higher card wins",
+    Component: HighCardDraw,
   },
 ];
 
