@@ -2,6 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import StartButtonInfoModal from "../shared/StartButtonInfoModal.tsx";
 import DitherImage from "../../dither/DitherImage.tsx";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
+import emptyPng from "./empty_shot_glass.png";
+import halfPng from "./half_full_shot_glass.png";
+import fullPng from "./full_shot_glass.png";
 import "./Shots.css";
 
 /* === CONFIG CONSTANTS === */
@@ -9,10 +12,6 @@ const FILL_DURATION_MS: number = 1000; // total fill time
 const TICK_INTERVAL_MS: number = 200; // fill update cadence
 const FLASH_EMPTY_MS: number = 1000; // how long to flash after drinking
 const BLINK_INTERVAL_MS: number = 120; // how fast the empty glass blinks
-
-const HALF_FULL_SHOT_GLASS_SRC = "src/assets/half_full_shot_glass.png";
-const FULL_SHOT_GLASS_SRC = "src/assets/full_shot_glass.png";
-const EMPTY_SHOT_GLASS_SRC = "src/assets/empty_shot_glass.png";
 
 type Phase = "idle" | "filling" | "flashing" | "done";
 
@@ -190,25 +189,13 @@ export default function Shots() {
           }}
         >
           {stage === 0 && (
-            <DitherImage
-              src={EMPTY_SHOT_GLASS_SRC}
-              dotColor="#FFFFFF"
-              scale={0.1}
-            />
+            <DitherImage src={emptyPng} dotColor="#FFFFFF" scale={0.1} />
           )}
           {stage === 1 && (
-            <DitherImage
-              src={HALF_FULL_SHOT_GLASS_SRC}
-              dotColor="#FFFFFF"
-              scale={0.1}
-            />
+            <DitherImage src={halfPng} dotColor="#FFFFFF" scale={0.1} />
           )}
           {stage === 2 && (
-            <DitherImage
-              src={FULL_SHOT_GLASS_SRC}
-              dotColor="#FFFFFF"
-              scale={0.1}
-            />
+            <DitherImage src={fullPng} dotColor="#FFFFFF" scale={0.1} />
           )}
         </div>
       )}
