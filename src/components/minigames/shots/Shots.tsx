@@ -10,6 +10,13 @@ const TICK_INTERVAL_MS: number = 200; // fill update cadence
 const FLASH_EMPTY_MS: number = 1000; // how long to flash after drinking
 const BLINK_INTERVAL_MS: number = 120; // how fast the empty glass blinks
 
+const HALF_FULL_SHOT_GLASS_SRC =
+  "https://lto43508qj.ufs.sh/f/gHd5Vec6j5LH8IyggTVk29d0wbspJKWo3y1q76Iu4ZHCzUnG";
+const FULL_SHOT_GLASS_SRC =
+  "https://lto43508qj.ufs.sh/f/gHd5Vec6j5LHxcsEQsy0AKjenNHagsRVwE4vOp5Xt8USlLPd";
+const EMPTY_SHOT_GLASS_SRC =
+  "https://lto43508qj.ufs.sh/f/gHd5Vec6j5LHI3ant6FfrL3csjzkQvpTxVSJOqln9dU8tG27";
+
 type Phase = "idle" | "filling" | "flashing" | "done";
 
 export default function Shots() {
@@ -187,21 +194,21 @@ export default function Shots() {
         >
           {stage === 0 && (
             <DitherImage
-              src="src/components/minigames/shots/empty_shot_glass.png"
+              src={EMPTY_SHOT_GLASS_SRC}
               dotColor="#FFFFFF"
               scale={0.1}
             />
           )}
           {stage === 1 && (
             <DitherImage
-              src="src/components/minigames/shots/half_full_shot_glass.png"
+              src={HALF_FULL_SHOT_GLASS_SRC}
               dotColor="#FFFFFF"
               scale={0.1}
             />
           )}
           {stage === 2 && (
             <DitherImage
-              src="src/components/minigames/shots/full_shot_glass.png"
+              src={FULL_SHOT_GLASS_SRC}
               dotColor="#FFFFFF"
               scale={0.1}
             />
