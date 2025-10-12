@@ -12,6 +12,7 @@ import LightsOutGame from "./components/minigames/lights-out/LightsOutGame.tsx";
 import SnowfallGame from "./components/minigames/snowfall/SnowfallGame.tsx";
 import useMediaQuery from "./hooks/useMediaQuery.ts";
 import SmallScreenFallback from "./components/SmallScreenFallback.tsx";
+import Shots from "./components/minigames/shots/Shots.tsx";
 
 const minigames: MinigameSpec[] = [
   {
@@ -62,6 +63,12 @@ const minigames: MinigameSpec[] = [
     description: "Type the falling letters before they hit the ground",
     Component: SnowfallGame,
   },
+  {
+    id: "shots",
+    title: "Shots",
+    description: "Take a damn shot",
+    Component: Shots,
+  }
 ];
 
 export default function App() {

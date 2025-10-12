@@ -1,0 +1,31 @@
+.shots-stage {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.drink-btn {
+    display: flex;
+    justify-content: space-around;
+    width: 200px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ffffff;
+    background: transparent;
+    font-family: "Fira Code", Menlo, Consolas, "Courier New", monospace;
+    cursor: pointer;
+    text-align: center;
+    color: inherit;
+    transition:
+            font-weight 120ms ease-in,
+            background 120ms ease-in;
+}
+
+.drink-btn:hover,
+.drink-btn:focus {
+    background: #0f1317;
+    font-weight: 700;
+    outline: none;
+}
