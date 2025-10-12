@@ -68,7 +68,7 @@ const minigames: MinigameSpec[] = [
     title: "Shots",
     description: "Take a damn shot",
     Component: Shots,
-  }
+  },
 ];
 
 export default function App() {

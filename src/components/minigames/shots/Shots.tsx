@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import StartButtonInfoModal from "../shared/StartButtonInfoModal.tsx";
 import DitherImage from "../../dither/DitherImage.tsx";
 import CenteredOverlay from "../dice-game/components/CenteredOverlay";
 import "./Shots.css";
 
 /* === CONFIG CONSTANTS === */
-const FILL_DURATION_MS: number = 1000;  // total fill time
-const TICK_INTERVAL_MS: number = 200;   // fill update cadence
-const FLASH_EMPTY_MS: number = 1000;    // how long to flash after drinking
-const BLINK_INTERVAL_MS: number = 120;  // how fast the empty glass blinks
+const FILL_DURATION_MS: number = 1000; // total fill time
+const TICK_INTERVAL_MS: number = 200; // fill update cadence
+const FLASH_EMPTY_MS: number = 1000; // how long to flash after drinking
+const BLINK_INTERVAL_MS: number = 120; // how fast the empty glass blinks
 
 type Phase = "idle" | "filling" | "flashing" | "done";
 
@@ -28,11 +28,11 @@ export default function Shots() {
   const transitions = 2;
   const totalTicks = useMemo(
     () => Math.max(1, Math.round(FILL_DURATION_MS / TICK_INTERVAL_MS)),
-    []
+    [],
   );
   const ticksPerStage = useMemo(
     () => Math.max(1, Math.floor(totalTicks / transitions)),
-    [totalTicks]
+    [totalTicks],
   );
 
   // Helpers: clear timers
@@ -65,14 +65,27 @@ export default function Shots() {
     clearAllTimers();
   };
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setStarted(false);
     setStage(0);
     setPhase("idle");
     tickRef.current = 0;
     setFlashVisible(true);
-    clearAllTimers();
-  };
+
+    // clear timers inline so we don't depend on outer helpers
+    if (fillIntervalRef.current) {
+      window.clearInterval(fillIntervalRef.current);
+      fillIntervalRef.current = null;
+    }
+    if (flashTimeoutRef.current) {
+      window.clearTimeout(flashTimeoutRef.current);
+      flashTimeoutRef.current = null;
+    }
+    if (blinkIntervalRef.current) {
+      window.clearInterval(blinkIntervalRef.current);
+      blinkIntervalRef.current = null;
+    }
+  }, []);
 
   // Press R to reset
   useEffect(() => {
@@ -81,7 +94,7 @@ export default function Shots() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, [reset]);
 
   // Handle fill progression (only clears the FILL INTERVAL on cleanup)
   useEffect(() => {
@@ -96,7 +109,7 @@ export default function Shots() {
       } else {
         const newStage = Math.min(
           2,
-          Math.floor(tickRef.current / ticksPerStage)
+          Math.floor(tickRef.current / ticksPerStage),
         ) as 0 | 1 | 2;
         setStage(newStage);
       }
@@ -131,14 +144,18 @@ export default function Shots() {
       <ul>
         <li>Breathe out, then drink. Never in — don’t choke on the fumes.</li>
         <li>No chasers. Maybe bread, maybe pickle. Nothing sweet.</li>
-        <li>Always drink to something. Otherwise it’s just fuel with no fire.</li>
+        <li>
+          Always drink to something. Otherwise it’s just fuel with no fire.
+        </li>
         <li>Press R after to reset.</li>
       </ul>
     </>
   );
 
   const showImage =
-    phase === "filling" || phase === "flashing" || (phase === "idle" && started);
+    phase === "filling" ||
+    phase === "flashing" ||
+    (phase === "idle" && started);
 
   return (
     <div
@@ -194,17 +211,17 @@ export default function Shots() {
 
       {phase === "filling" && stage === 2 && (
         <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <button
-          className="drink-btn"
-          onClick={onDrink}
-        >
-          Drink
-        </button>
+          <button className="drink-btn" onClick={onDrink}>
+            Drink
+          </button>
         </div>
       )}
 
       {phase === "done" && (
-        <CenteredOverlay title="That was rough..." subtitle="Have another with R" />
+        <CenteredOverlay
+          title="That was rough..."
+          subtitle="Have another with R"
+        />
       )}
     </div>
   );
