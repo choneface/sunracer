@@ -64,7 +64,7 @@ export function HighCardDraw() {
     const player = drawCard();
     setSpinner(null);
     setCards([opponent, player]);
-    return [opponent, player]
+    return [opponent, player];
   }, []);
 
   const resolveOutcome = useCallback(async (hand: [Card, Card]) => {
@@ -111,7 +111,8 @@ export function HighCardDraw() {
   const instructions = (
     <>
       <p>
-        High Card Draw: one player vs dealer. Both players draw cards and the high man wins
+        High Card Draw: one player vs dealer. Both players draw cards and the
+        high man wins
       </p>
       <ul>
         <li>Cards will be dealt as soon as you press start</li>

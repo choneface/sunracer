@@ -1,6 +1,4 @@
-import HighCardDrawCard, {
-  type Face,
-} from "./HighCardDrawCard.tsx";
+import HighCardDrawCard, { type Face } from "./HighCardDrawCard.tsx";
 
 export default function HighCardDrawHand({
   title,
