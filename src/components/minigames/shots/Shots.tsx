@@ -10,12 +10,9 @@ const TICK_INTERVAL_MS: number = 200; // fill update cadence
 const FLASH_EMPTY_MS: number = 1000; // how long to flash after drinking
 const BLINK_INTERVAL_MS: number = 120; // how fast the empty glass blinks
 
-const HALF_FULL_SHOT_GLASS_SRC =
-  "src/assets/half_full_shot_glass.png";
-const FULL_SHOT_GLASS_SRC =
-  "src/assets/full_shot_glass.png";
-const EMPTY_SHOT_GLASS_SRC =
-  "src/assets/empty_shot_glass.png";
+const HALF_FULL_SHOT_GLASS_SRC = "src/assets/half_full_shot_glass.png";
+const FULL_SHOT_GLASS_SRC = "src/assets/full_shot_glass.png";
+const EMPTY_SHOT_GLASS_SRC = "src/assets/empty_shot_glass.png";
 
 type Phase = "idle" | "filling" | "flashing" | "done";
 
