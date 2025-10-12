@@ -11,11 +11,11 @@ const FLASH_EMPTY_MS: number = 1000; // how long to flash after drinking
 const BLINK_INTERVAL_MS: number = 120; // how fast the empty glass blinks
 
 const HALF_FULL_SHOT_GLASS_SRC =
-  "https://lto43508qj.ufs.sh/f/gHd5Vec6j5LH8IyggTVk29d0wbspJKWo3y1q76Iu4ZHCzUnG";
+  "src/assets/half_full_shot_glass.png";
 const FULL_SHOT_GLASS_SRC =
-  "https://lto43508qj.ufs.sh/f/gHd5Vec6j5LHxcsEQsy0AKjenNHagsRVwE4vOp5Xt8USlLPd";
+  "src/assets/full_shot_glass.png";
 const EMPTY_SHOT_GLASS_SRC =
-  "https://lto43508qj.ufs.sh/f/gHd5Vec6j5LHI3ant6FfrL3csjzkQvpTxVSJOqln9dU8tG27";
+  "src/assets/empty_shot_glass.png";
 
 type Phase = "idle" | "filling" | "flashing" | "done";
 
