@@ -1,7 +1,10 @@
 import { renderHook, act } from "@testing-library/react";
 import { useSceneDirector } from "./useSceneDirector";
 import type { SceneStep } from "./../components/scenes/SceneTypes";
-import { directorScript, endOnlyScript } from "../../test/fixtures/directorScripts";
+import {
+  directorScript,
+  endOnlyScript,
+} from "../../test/fixtures/directorScripts";
 import { expectAtStep, stepKind } from "../../test/utils/directorAsserts";
 
 describe("useSceneDirector - state machine basics", () => {
@@ -59,7 +62,7 @@ describe("useSceneDirector - variables & branching", () => {
   it("Blackjack path: win -> branches to 'You won at Blackjack.'", () => {
     const { result } = renderHook(() => useSceneDirector(directorScript, 0));
     // startGame -> await -> branch
-    act(() => result.current.goto(2));   // startGame (2)
+    act(() => result.current.goto(2)); // startGame (2)
     act(() => result.current.advance()); // -> await (3)
     act(() => result.current.advance()); // -> branch (4)
 
@@ -101,7 +104,7 @@ describe("useSceneDirector - variables & branching", () => {
     act(() => result.current.advance()); // 3
     act(() => result.current.advance()); // 4 branch
 
-    act(() => result.current.setResult("completed" as any)); // not mapped in blackj. branch
+    act(() => result.current.setResult("completed")); // not mapped in blackj. branch
     act(() => result.current.maybeAutoAdvance());
 
     // should fall through to 5 (idx + 1 after branch step)

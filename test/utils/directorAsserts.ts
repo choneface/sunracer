@@ -3,7 +3,7 @@ import type { SceneStep } from "../../src/components/scenes/SceneTypes";
 export function expectAtStep(
   current: SceneStep,
   script: SceneStep[],
-  index: number
+  index: number,
 ) {
   // When index is out of range, current should be the synthetic "end" step
   if (index < 0 || index >= script.length) {
