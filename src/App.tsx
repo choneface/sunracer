@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import StartMenu from "./components/start-menu/StartMenu.tsx";
-import MinigamesMenu from "./components/MinigamesMenu";
-import type { MinigameSpec } from "./components/MinigamesMenu";
+import MinigamesMenu from "./components/minigames/MinigamesMenu";
+import type { MinigameSpec } from "./components/minigames/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
 import MinesweeperGame from "./components/minigames/minesweeper/MinesweeperGame";
 import KeypadGame from "./components/minigames/keypad/KeypadGame";
