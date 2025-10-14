@@ -1,0 +1,135 @@
+:root {
+  --term-font-size: 14px; /* 13–15px reads like a TTY */
+  --term-line-height: 1.25;
+  --term-letter-spacing: -0.008em; /* macOS rasterizers like a hair tight */
+  --term-fg: #c5c8c6;
+  --term-bg: #15191e;
+  --term-fg-strong: #e6e6e6;
+  --term-rev-fg: #111;
+  --term-rev-bg: #e6e6e6;
+}
+
+/* 72 “columns” + 2ch gutter padding */
+.tty-viewport {
+  width: calc(72ch + 2ch);
+  min-height: 100vh;
+  padding: 1ch;
+  box-sizing: border-box;
+}
+
+.start-menu {
+  background: var(--term-bg);
+  color: var(--term-fg);
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    "DejaVu Sans Mono",
+    "Liberation Mono",
+    "JetBrains Mono",
+    "Fira Code",
+    monospace;
+  font-size: var(--term-font-size);
+  line-height: var(--term-line-height);
+  letter-spacing: var(--term-letter-spacing);
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  white-space: pre; /* preserve spacing like a terminal */
+  tab-size: 8;
+}
+
+.title {
+  margin: 0 0 1ch 0;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--term-fg-strong);
+  user-select: none;
+}
+
+.logline {
+  margin: 0;
+  color: var(--term-fg);
+}
+.logline.blank {
+  opacity: 0.6;
+}
+
+.menu {
+  display: grid;
+  grid-auto-rows: calc(1em * var(--term-line-height));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  align-content: start;
+}
+
+/* one “row” feels like a TUI line, not a web button */
+.row {
+  all: unset; /* kill native button styles */
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+
+.gutter {
+  display: inline-block;
+  width: 2ch; /* space for the cursor › */
+  margin-right: 0ch;
+}
+
+/* The main content uses ch units so dotted leaders align */
+.content {
+  display: inline-block;
+  width: 70ch; /* leaves 2ch for gutter = 72ch total */
+}
+
+/* reverse video selection (hover OR keyboard focus) */
+.row:hover,
+.row.is-selected,
+.row:focus-visible {
+  background: var(--term-rev-bg);
+  color: var(--term-rev-fg);
+  outline: none;
+}
+
+/* show the › only when hovered/selected for that TUI vibe */
+.row .gutter {
+  color: transparent;
+}
+.row:hover .gutter,
+.row.is-selected .gutter,
+.row:focus-visible .gutter {
+  color: inherit;
+}
+
+/* footer hint with a blinking block caret */
+.footer {
+  margin-top: auto;
+  color: var(--term-fg);
+}
+.caret {
+  animation: blink 1s steps(1, end) infinite;
+  margin-left: 1ch;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* selection color when dragging */
+::selection {
+  background: #3b3b3b;
+  color: #fff;
+}

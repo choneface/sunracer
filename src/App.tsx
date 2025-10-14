@@ -1,5 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import StartMenu from "./components/StartMenu";
+import StartMenu from "./components/start-menu/StartMenu.tsx";
 import MinigamesMenu from "./components/MinigamesMenu";
 import type { MinigameSpec } from "./components/MinigamesMenu";
 import DiceGame from "./components/minigames/dice-game/DiceGame";
